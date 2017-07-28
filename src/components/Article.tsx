@@ -27,10 +27,11 @@ function Article(props: ArticleProps) {
   } = props
 
   const onTextClick = (ev: React.SyntheticEvent<HTMLElement>) => {
-    if (article && ev.currentTarget.tagName === 'SPAN') {
+    const elem = ev.target as HTMLElement
+    if (article && elem.tagName === 'SPAN') {
       ev.preventDefault()
       ev.stopPropagation()
-      const text = ev.currentTarget.innerText.trim()
+      const text = elem.innerText.trim()
       const { targetLang } = article._topic
       handleSpeech(text, targetLang)
     }
