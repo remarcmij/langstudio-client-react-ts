@@ -5,7 +5,7 @@ import { History } from 'history'
 import { match } from 'react-router-dom'
 
 import Article from '../components/Article'
-import { fetchArticle, fetchArticleCancelled, clearArticle } from '../actions/article'
+import { fetchArticle, fetchArticleCancel, clearArticle } from '../actions/article'
 import { getArticle, getLoading, getError } from '../reducers/article'
 import speechService from '../services/speechService'
 
@@ -96,7 +96,7 @@ const mapDispatchToProps = (dispatch: Dispatch<AppState>) => ({
     dispatch(fetchArticle(publication, chapter))
   },
   fetchArticleCancelled() {
-    dispatch(fetchArticleCancelled())
+    dispatch(fetchArticleCancel())
   },
   clearArticle() {
     dispatch(clearArticle())

@@ -5,10 +5,10 @@ import * as LRU from 'lru-cache'
 import config from '../config/config'
 import C from '../actions/constants'
 
-const cache = LRU<ArticleFetchFulfilledAction>({ max: 25, maxAge: 1000 * 60 * 60 })
+const cache = LRU<ArticleFetchDoneAction>({ max: 25, maxAge: 1000 * 60 * 60 })
 
-const fetchFulfilled = (article: ArticleType): ArticleFetchFulfilledAction => ({
-  type: C.ARTICLE_FETCH_FULFILLED,
+const fetchDone = (article: ArticleType): ArticleFetchDoneAction => ({
+  type: C.ARTICLE_FETCH_DONE,
   payload: { article }
 })
 
@@ -31,9 +31,9 @@ export function fetchArticleEpic(action$: ActionsObservable<ArticleFetchAction>)
       return Observable.ajax({
         url,
         headers: { Authorization: `Bearer ${config.token}` }
-      }).map(res => fetchFulfilled(res.response))
+      }).map(res => fetchDone(res.response))
         .do(action => cache.set(fileName, action))
         .catch(error => Observable.of(fetchError(error)))
-        .takeUntil(action$.ofType(C.ARTICLE_FETCH_CANCELLED))
+        .takeUntil(action$.ofType(C. ARTICLE_FETCH_CANCEL))
     })
 }

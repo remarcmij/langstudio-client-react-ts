@@ -75,7 +75,7 @@ interface AutoCompleteFetchAction extends Action {
   }
 }
 
-interface AutoCompleteFetchFulfilledAction extends Action {
+interface AutoCompleteFetchDoneAction extends Action {
   payload: {
     items: SearchItem[]
   }
@@ -94,7 +94,7 @@ interface ArticleFetchAction extends Action {
   }
 }
 
-interface ArticleFetchFulfilledAction extends Action {
+interface ArticleFetchDoneAction extends Action {
   payload: {
     article: ArticleType
   }
@@ -106,14 +106,14 @@ interface ArticleListFetchAction extends Action {
   }
 }
 
-interface ArticleListFetchFulfilledAction extends Action {
+interface ArticleListFetchDoneAction extends Action {
   payload: {
     publication: string
     topics: Topic[]
   }
 }
 
-interface PublicationListFetchFulfilledAction extends Action {
+interface PublicationListFetchDoneAction extends Action {
   payload: {
     topics: Topic[]
   }

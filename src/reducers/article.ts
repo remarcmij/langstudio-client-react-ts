@@ -12,7 +12,7 @@ const fetch = (): ArticleState => ({
   error: null
 })
 
-const fetchFulfilled = (state: ArticleState, action: ArticleFetchFulfilledAction): ArticleState => ({
+const fetchFulfilled = (state: ArticleState, action: ArticleFetchDoneAction): ArticleState => ({
   ...state,
   ...action.payload,
   loading: false,
@@ -41,9 +41,9 @@ export default function reducer(state: ArticleState = initialState, action: Acti
   switch (action.type) {
     case C.ARTICLE_FETCH:
       return fetch()
-    case C.ARTICLE_FETCH_FULFILLED:
-      return fetchFulfilled(state, <ArticleFetchFulfilledAction>action)
-    case C.ARTICLE_FETCH_CANCELLED:
+    case C.ARTICLE_FETCH_DONE:
+      return fetchFulfilled(state, <ArticleFetchDoneAction>action)
+    case C. ARTICLE_FETCH_CANCEL:
       return fetchCancelled(state)
     case C.ARTICLE_FETCH_ERROR:
       return fetchError(state, <FetchErrorAction>action)

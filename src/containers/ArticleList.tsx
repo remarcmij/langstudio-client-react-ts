@@ -94,7 +94,7 @@ const mapDispatchToProps = (dispatch: Dispatch<AppState>) => ({
     dispatch(actions.fetchArticleList(publication))
   },
   fetchArticleListCancelled() {
-    dispatch(actions.fetchArticleListCancelled())
+    dispatch(actions.fetchArticleListCancel())
   }
 })
 

@@ -4,8 +4,8 @@ import { ActionsObservable } from 'redux-observable'
 import config from '../config/config'
 import C from '../actions/constants'
 
-const fetchFulfilled = (topics: Topic[]): PublicationListFetchFulfilledAction => ({
-  type: C.PUBLICATION_LIST_FETCH_FULFILLED,
+const fetchDone = (topics: Topic[]): PublicationListFetchDoneAction => ({
+  type: C.PUBLICATION_LIST_FETCH_DONE,
   payload: { topics }
 })
 
@@ -15,7 +15,7 @@ const fetchError = (error: Error): FetchErrorAction => ({
 })
 
 export function fetchPublicationListEpic(
-  action$: ActionsObservable<PublicationListFetchFulfilledAction>): Observable<Action> {
+  action$: ActionsObservable<PublicationListFetchDoneAction>): Observable<Action> {
   return action$
     .ofType(C.PUBLICATION_LIST_FETCH)
     .switchMap(() => {
@@ -23,8 +23,8 @@ export function fetchPublicationListEpic(
       return Observable.ajax({
         url,
         headers: { Authorization: `Bearer ${config.token}` }
-      }).map(res => fetchFulfilled(res.response))
+      }).map(res => fetchDone(res.response))
         .catch(error => Observable.of(fetchError(error)))
-        .takeUntil(action$.ofType(C.PUBLICATION_LIST_FETCH_CANCELLED))
+        .takeUntil(action$.ofType(C.PUBLICATION_LIST_FETCH_CANCEL))
     })
 }

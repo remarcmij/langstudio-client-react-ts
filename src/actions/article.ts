@@ -4,5 +4,5 @@ export const fetchArticle = (publication: string, chapter: string): ArticleFetch
   type: C.ARTICLE_FETCH,
   payload: { publication, chapter }
 })
-export const fetchArticleCancelled = (): Action => ({ type: C.ARTICLE_FETCH_CANCELLED })
+export const fetchArticleCancel = (): Action => ({ type: C. ARTICLE_FETCH_CANCEL })
 export const clearArticle = (): Action => ({ type: C.ARTICLE_CLEAR })

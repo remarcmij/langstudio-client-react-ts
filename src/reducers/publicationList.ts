@@ -13,7 +13,7 @@ const fetch = (): PublicationListState => ({
 })
 
 const fetchFulfilled =
-  (state: PublicationListState, action: PublicationListFetchFulfilledAction): PublicationListState => ({
+  (state: PublicationListState, action: PublicationListFetchDoneAction): PublicationListState => ({
     ...action.payload,
     loading: false,
     error: null
@@ -35,9 +35,9 @@ export default function reducer(state: PublicationListState = initialState, acti
   switch (action.type) {
     case C.PUBLICATION_LIST_FETCH:
       return fetch()
-    case C.PUBLICATION_LIST_FETCH_FULFILLED:
-      return fetchFulfilled(state, <PublicationListFetchFulfilledAction>action)
-    case C.PUBLICATION_LIST_FETCH_CANCELLED:
+    case C.PUBLICATION_LIST_FETCH_DONE:
+      return fetchFulfilled(state, <PublicationListFetchDoneAction>action)
+    case C.PUBLICATION_LIST_FETCH_CANCEL:
       return fetchCancelled(state)
     case C.PUBLICATION_LIST_FETCH_ERROR:
       return fetchError(state, <FetchErrorAction>action)

@@ -13,7 +13,7 @@ const fetch = (): AutoCompleteListState => ({
 })
 
 const fetchFulfilled =
-  (state: AutoCompleteListState, action: AutoCompleteFetchFulfilledAction): AutoCompleteListState => ({
+  (state: AutoCompleteListState, action: AutoCompleteFetchDoneAction): AutoCompleteListState => ({
     ...action.payload,
     loading: false,
     error: null
@@ -29,8 +29,8 @@ export default function reducer(state: AutoCompleteListState = initialState, act
   switch (action.type) {
     case C.AUTOCOMPLETE_FETCH:
       return fetch()
-    case C.AUTOCOMPLETE_FETCH_FULFILLED:
-      return fetchFulfilled(state, <AutoCompleteFetchFulfilledAction>action)
+    case C.AUTOCOMPLETE_FETCH_DONE:
+      return fetchFulfilled(state, <AutoCompleteFetchDoneAction>action)
     case C.AUTOCOMPLETE_FETCH_ERROR:
       return fetchError(state, <FetchErrorAction>action)
     default:
