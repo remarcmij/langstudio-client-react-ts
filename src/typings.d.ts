@@ -40,8 +40,12 @@ interface ArticleState {
   error: Error | null
 }
 
+interface ArticleListTopicsState {
+  [publication: string]: Topic[]
+}
+
 interface ArticleListState {
-  topics: { [publication: string]: Topic[] }
+  topics: ArticleListTopicsState
   loading: boolean
   error: Error | null
 }

@@ -12,13 +12,18 @@ const fetch = (state: ArticleListState): ArticleListState => ({
   error: null
 })
 
-const fetchFulfilled = (state: ArticleListState, action: ArticleListFetchDoneAction): ArticleListState => ({
-  topics: { ...state.topics, [action.payload.publication]: action.payload.topics },
+const addTopics = (state: ArticleListTopicsState, action: ArticleListFetchDoneAction): ArticleListTopicsState => ({
+  ...state,
+  [action.payload.publication]: action.payload.topics
+})
+
+const fetchDone = (state: ArticleListState, action: ArticleListFetchDoneAction): ArticleListState => ({
+  topics: addTopics(state.topics, action),
   loading: false,
   error: null
 })
 
-const fetchCancelled = (state: ArticleListState): ArticleListState => ({
+const fetchCancel = (state: ArticleListState): ArticleListState => ({
   ...state,
   loading: false,
   error: null
@@ -35,9 +40,9 @@ export default function reducer(state: ArticleListState = initialState, action: 
     case C.ARTICLE_LIST_FETCH:
       return fetch(state)
     case C.ARTICLE_LIST_FETCH_DONE:
-      return fetchFulfilled(state, <ArticleListFetchDoneAction>action)
+      return fetchDone(state, <ArticleListFetchDoneAction>action)
     case C.ARTICLE_LIST_FETCH_CANCEL:
-      return fetchCancelled(state)
+      return fetchCancel(state)
     case C.ARTICLE_LIST_FETCH_ERROR:
       return fetchError(state, <FetchErrorAction>action)
     default:
