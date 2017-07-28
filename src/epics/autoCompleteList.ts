@@ -3,27 +3,23 @@ import { ActionsObservable } from 'redux-observable'
 import * as LRU from 'lru-cache'
 
 import config from '../config/config'
-import {
-  AUTOCOMPLETE_FETCH,
-  AUTOCOMPLETE_FETCH_FULFILLED,
-  AUTOCOMPLETE_FETCH_ERROR
-} from '../actions/constants'
+import C from '../actions/constants'
 
 const cache = LRU<AutoCompleteFetchFulfilledAction>({ max: 100, maxAge: 1000 * 60 * 60 })
 
 const fetchFulfilled = (items: SearchItem[]): AutoCompleteFetchFulfilledAction => ({
-  type: AUTOCOMPLETE_FETCH_FULFILLED,
+  type: C.AUTOCOMPLETE_FETCH_FULFILLED,
   payload: { items }
 })
 
 const fetchError = (error: Error): FetchErrorAction => ({
-  type: AUTOCOMPLETE_FETCH_ERROR,
+  type: C.AUTOCOMPLETE_FETCH_ERROR,
   payload: { error }
 })
 
 export function fetchAutoCompleteListEpic(action$: ActionsObservable<AutoCompleteFetchAction>): Observable<Action> {
   return action$
-    .ofType(AUTOCOMPLETE_FETCH)
+    .ofType(C.AUTOCOMPLETE_FETCH)
     .debounceTime(250)
     .switchMap(({ payload }) => {
       const { term } = payload

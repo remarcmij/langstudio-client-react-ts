@@ -1,6 +1,6 @@
-import { AUTOCOMPLETE_FETCH } from './constants'
+import C from './constants'
 
 export const fetchAutoCompleteList = (term: string): AutoCompleteFetchAction => ({
-  type: AUTOCOMPLETE_FETCH,
+  type: C.AUTOCOMPLETE_FETCH,
   payload: { term }
 })

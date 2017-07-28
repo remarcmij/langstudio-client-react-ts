@@ -1,9 +1,4 @@
-import {
-  PUBLICATION_LIST_FETCH,
-  PUBLICATION_LIST_FETCH_CANCELLED,
-  PUBLICATION_LIST_FETCH_FULFILLED,
-  PUBLICATION_LIST_FETCH_ERROR
-} from '../actions/constants'
+import C from '../actions/constants'
 
 const initialState = {
   topics: null,
@@ -11,7 +6,7 @@ const initialState = {
   error: null
 }
 
-const fetch = () => ({
+const fetch = (): PublicationListState => ({
   topics: null,
   loading: true,
   error: null
@@ -38,13 +33,13 @@ const fetchError = (state: PublicationListState, action: FetchErrorAction): Publ
 
 export default function reducer(state: PublicationListState = initialState, action: Action): PublicationListState {
   switch (action.type) {
-    case PUBLICATION_LIST_FETCH:
+    case C.PUBLICATION_LIST_FETCH:
       return fetch()
-    case PUBLICATION_LIST_FETCH_FULFILLED:
+    case C.PUBLICATION_LIST_FETCH_FULFILLED:
       return fetchFulfilled(state, <PublicationListFetchFulfilledAction>action)
-    case PUBLICATION_LIST_FETCH_CANCELLED:
+    case C.PUBLICATION_LIST_FETCH_CANCELLED:
       return fetchCancelled(state)
-    case PUBLICATION_LIST_FETCH_ERROR:
+    case C.PUBLICATION_LIST_FETCH_ERROR:
       return fetchError(state, <FetchErrorAction>action)
     default:
       return state

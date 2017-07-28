@@ -1,8 +1,4 @@
-import {
-  AUTOCOMPLETE_FETCH,
-  AUTOCOMPLETE_FETCH_FULFILLED,
-  AUTOCOMPLETE_FETCH_ERROR
-} from '../actions/constants'
+import C from '../actions/constants'
 
 const initialState = {
   items: null,
@@ -29,13 +25,13 @@ const fetchError = (state: AutoCompleteListState, action: FetchErrorAction): Aut
   loading: false
 })
 
-export default function reducer(state: AutoCompleteListState = initialState, action: Action) {
+export default function reducer(state: AutoCompleteListState = initialState, action: Action): AutoCompleteListState {
   switch (action.type) {
-    case AUTOCOMPLETE_FETCH:
+    case C.AUTOCOMPLETE_FETCH:
       return fetch()
-    case AUTOCOMPLETE_FETCH_FULFILLED:
+    case C.AUTOCOMPLETE_FETCH_FULFILLED:
       return fetchFulfilled(state, <AutoCompleteFetchFulfilledAction>action)
-    case AUTOCOMPLETE_FETCH_ERROR:
+    case C.AUTOCOMPLETE_FETCH_ERROR:
       return fetchError(state, <FetchErrorAction>action)
     default:
       return state

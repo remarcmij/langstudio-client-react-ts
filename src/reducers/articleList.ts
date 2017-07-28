@@ -1,9 +1,4 @@
-import {
-  ARTICLE_LIST_FETCH,
-  ARTICLE_LIST_FETCH_CANCELLED,
-  ARTICLE_LIST_FETCH_FULFILLED,
-  ARTICLE_LIST_FETCH_ERROR
-} from '../actions/constants'
+import C from '../actions/constants'
 
 const initialState = {
   topics: {},
@@ -37,13 +32,13 @@ const fetchError = (state: ArticleListState, action: FetchErrorAction): ArticleL
 
 export default function reducer(state: ArticleListState = initialState, action: Action): ArticleListState {
   switch (action.type) {
-    case ARTICLE_LIST_FETCH:
+    case C.ARTICLE_LIST_FETCH:
       return fetch(state)
-    case ARTICLE_LIST_FETCH_FULFILLED:
+    case C.ARTICLE_LIST_FETCH_FULFILLED:
       return fetchFulfilled(state, <ArticleListFetchFulfilledAction>action)
-    case ARTICLE_LIST_FETCH_CANCELLED:
+    case C.ARTICLE_LIST_FETCH_CANCELLED:
       return fetchCancelled(state)
-    case ARTICLE_LIST_FETCH_ERROR:
+    case C.ARTICLE_LIST_FETCH_ERROR:
       return fetchError(state, <FetchErrorAction>action)
     default:
       return state
