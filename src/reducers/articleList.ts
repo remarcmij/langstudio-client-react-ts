@@ -45,6 +45,6 @@ export default function reducer(state: ArticleListState = initialState, action: 
   }
 }
 
-export const getTopics = (state: AppState, publication: string) => state.articleList.topics[publication]
+export const getTopics = (state: AppState) => state.articleList.topics
 export const getLoading = (state: AppState) => state.articleList.loading
 export const getError = (state: AppState) => state.articleList.error

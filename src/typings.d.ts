@@ -41,7 +41,7 @@ interface ArticleState {
 }
 
 interface ArticleListState {
-  topics: { [key: string]: Topic[] }
+  topics: { [publication: string]: Topic[] }
   loading: boolean
   error: Error | null
 }

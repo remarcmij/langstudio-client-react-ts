@@ -17,10 +17,7 @@ interface OwnProps {
   match: match<MatchParams>
 }
 
-interface ArticleListContainerProps extends OwnProps {
-  topics: Topic[]
-  loading: boolean
-  error: Error | null
+interface ArticleListContainerProps extends OwnProps, ArticleListState {
   fetchArticleList: (publication: string) => void
   fetchArticleListCancelled: () => void
 }
@@ -40,7 +37,8 @@ class ArticleListContainer extends React.Component<ArticleListContainerProps> {
   }
 
   componentDidMount() {
-    if (!this.props.topics) {
+    const { publication } = this.props.match.params
+    if (!this.props.topics[publication]) {
       this.handleFetchArticleTopics()
     }
   }
@@ -71,21 +69,22 @@ class ArticleListContainer extends React.Component<ArticleListContainerProps> {
 
   render() {
     const { topics, error } = this.props
+    const { publication } = this.props.match.params
     return (
       <ArticleList
         onBackClick={this.onBackClick}
         onSearchClick={this.onSearchClick}
         onItemClick={this.onItemClick}
         onRetryClick={this.handleFetchArticleTopics}
-        topics={topics}
+        topics={topics[publication]}
         error={error}
       />
     )
   }
 }
 
-const mapStateToProps = (state: AppState, ownProps: OwnProps) => ({
-  topics: getTopics(state, ownProps.match.params.publication),
+const mapStateToProps = (state: AppState) => ({
+  topics: getTopics(state),
   loading: getLoading(state),
   error: getError(state)
 })
