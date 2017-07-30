@@ -1,4 +1,4 @@
-import C from './constants'
+import AT from './actionTypes'
 
-export const fetchPublicationList = (): Action => ({ type: C.PUBLICATION_LIST_FETCH })
-export const fetchPublicationListCancel = (): Action => ({ type: C.PUBLICATION_LIST_FETCH_CANCEL })
+export const fetchPublicationList = (): Action => ({ type: AT.PUBLICATIONLIST_FETCH })
+export const fetchPublicationListCancel = (): Action => ({ type: AT.PUBLICATIONLIST_FETCH_CANCEL })

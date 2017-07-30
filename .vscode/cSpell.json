@@ -6,8 +6,10 @@
     "language": "en",
     // words - list of words to be always considered correct
     "words": [
+        "ARTICLELIST",
         "DEVTOOLS",
         "Indonesisch",
+        "PUBLICATIONLIST",
         "Taal",
         "langstudio",
         "preloaded"

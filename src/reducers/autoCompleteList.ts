@@ -1,4 +1,4 @@
-import C from '../actions/constants'
+import AT from '../actions/actionTypes'
 
 const initialState = {
   items: null,
@@ -12,14 +12,14 @@ const fetch = (): AutoCompleteListState => ({
   error: null
 })
 
-const fetchDone =
-  (state: AutoCompleteListState, action: AutoCompleteFetchDoneAction): AutoCompleteListState => ({
+const fetchSuccess =
+  (state: AutoCompleteListState, action: AutoCompleteFetchSuccessAction): AutoCompleteListState => ({
     ...action.payload,
     loading: false,
     error: null
   })
 
-const fetchError = (state: AutoCompleteListState, action: FetchErrorAction): AutoCompleteListState => ({
+const fetchFailure = (state: AutoCompleteListState, action: FetchFailureAction): AutoCompleteListState => ({
   ...state,
   ...action.payload,
   loading: false
@@ -27,12 +27,12 @@ const fetchError = (state: AutoCompleteListState, action: FetchErrorAction): Aut
 
 export default function reducer(state: AutoCompleteListState = initialState, action: Action): AutoCompleteListState {
   switch (action.type) {
-    case C.AUTOCOMPLETE_FETCH:
+    case AT.AUTOCOMPLETE_FETCH:
       return fetch()
-    case C.AUTOCOMPLETE_FETCH_DONE:
-      return fetchDone(state, <AutoCompleteFetchDoneAction>action)
-    case C.AUTOCOMPLETE_FETCH_ERROR:
-      return fetchError(state, <FetchErrorAction>action)
+    case AT.AUTOCOMPLETE_FETCH_SUCCESS:
+      return fetchSuccess(state, <AutoCompleteFetchSuccessAction>action)
+    case AT.AUTOCOMPLETE_FETCH_FAILURE:
+      return fetchFailure(state, <FetchFailureAction>action)
     default:
       return state
   }

@@ -1,10 +1,10 @@
-import C from './constants'
+import AT from './actionTypes'
 
 export const fetchArticleList = (publication: string): ArticleListFetchAction => ({
-  type: C.ARTICLE_LIST_FETCH,
+  type: AT.ARTICLELIST_FETCH,
   payload: { publication }
 })
 
 export const fetchArticleListCancel = (): Action => ({
-  type: C.ARTICLE_LIST_FETCH_CANCEL
+  type: AT.ARTICLELIST_FETCH_CANCEL
 })

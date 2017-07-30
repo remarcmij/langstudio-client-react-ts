@@ -7,8 +7,8 @@ import { getItems, getLoading, getError } from '../reducers/autoCompleteList'
 
 interface OwnProps {
   onItemSelected: (searchItem: SearchItem) => void
-
 }
+
 const mapStateToProps = (state: AppState, {onItemSelected}: OwnProps) => ({
   items: getItems(state),
   loading: getLoading(state),

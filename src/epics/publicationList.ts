@@ -2,29 +2,29 @@ import { Observable } from 'rxjs/Observable'
 import { ActionsObservable } from 'redux-observable'
 
 import config from '../config/config'
-import C from '../actions/constants'
+import AT from '../actions/actionTypes'
 
-const fetchDone = (topics: Topic[]): PublicationListFetchDoneAction => ({
-  type: C.PUBLICATION_LIST_FETCH_DONE,
+const fetchSuccess = (topics: Topic[]): PublicationListFetchSuccessAction => ({
+  type: AT.PUBLICATIONLIST_FETCH_SUCCESS,
   payload: { topics }
 })
 
-const fetchError = (error: Error): FetchErrorAction => ({
-  type: C.PUBLICATION_LIST_FETCH_ERROR,
+const fetchFailure = (error: Error): FetchFailureAction => ({
+  type: AT.PUBLICATIONLIST_FETCH_FAILURE,
   payload: { error }
 })
 
 export function fetchPublicationListEpic(
-  action$: ActionsObservable<PublicationListFetchDoneAction>): Observable<Action> {
+  action$: ActionsObservable<PublicationListFetchSuccessAction>): Observable<Action> {
   return action$
-    .ofType(C.PUBLICATION_LIST_FETCH)
+    .ofType(AT.PUBLICATIONLIST_FETCH)
     .switchMap(() => {
       const url = `${config.apiEndPoint}/topics/index`
       return Observable.ajax({
         url,
         headers: { Authorization: `Bearer ${config.token}` }
-      }).map(res => fetchDone(res.response))
-        .catch(error => Observable.of(fetchError(error)))
-        .takeUntil(action$.ofType(C.PUBLICATION_LIST_FETCH_CANCEL))
+      }).map(res => fetchSuccess(res.response))
+        .catch(error => Observable.of(fetchFailure(error)))
+        .takeUntil(action$.ofType(AT.PUBLICATIONLIST_FETCH_CANCEL))
     })
 }

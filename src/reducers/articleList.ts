@@ -1,4 +1,4 @@
-import C from '../actions/constants'
+import AT from '../actions/actionTypes'
 
 const initialState = {
   topics: {},
@@ -12,12 +12,12 @@ const fetch = (state: ArticleListState): ArticleListState => ({
   error: null
 })
 
-const addTopics = (state: ArticleListTopicsState, action: ArticleListFetchDoneAction): ArticleListTopicsState => ({
+const addTopics = (state: ArticleListTopicsState, action: ArticleListFetchSuccessAction): ArticleListTopicsState => ({
   ...state,
   [action.payload.publication]: action.payload.topics
 })
 
-const fetchDone = (state: ArticleListState, action: ArticleListFetchDoneAction): ArticleListState => ({
+const fetchSuccess = (state: ArticleListState, action: ArticleListFetchSuccessAction): ArticleListState => ({
   topics: addTopics(state.topics, action),
   loading: false,
   error: null
@@ -29,7 +29,7 @@ const fetchCancel = (state: ArticleListState): ArticleListState => ({
   error: null
 })
 
-const fetchError = (state: ArticleListState, action: FetchErrorAction): ArticleListState => ({
+const fetchFailure = (state: ArticleListState, action: FetchFailureAction): ArticleListState => ({
   ...state,
   ...action.payload,
   loading: false
@@ -37,14 +37,14 @@ const fetchError = (state: ArticleListState, action: FetchErrorAction): ArticleL
 
 export default function reducer(state: ArticleListState = initialState, action: Action): ArticleListState {
   switch (action.type) {
-    case C.ARTICLE_LIST_FETCH:
+    case AT.ARTICLELIST_FETCH:
       return fetch(state)
-    case C.ARTICLE_LIST_FETCH_DONE:
-      return fetchDone(state, <ArticleListFetchDoneAction>action)
-    case C.ARTICLE_LIST_FETCH_CANCEL:
+    case AT.ARTICLELIST_FETCH_SUCCESS:
+      return fetchSuccess(state, <ArticleListFetchSuccessAction>action)
+    case AT.ARTICLELIST_FETCH_CANCEL:
       return fetchCancel(state)
-    case C.ARTICLE_LIST_FETCH_ERROR:
-      return fetchError(state, <FetchErrorAction>action)
+    case AT.ARTICLELIST_FETCH_FAILURE:
+      return fetchFailure(state, <FetchFailureAction>action)
     default:
       return state
   }

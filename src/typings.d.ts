@@ -79,13 +79,13 @@ interface AutoCompleteFetchAction extends Action {
   }
 }
 
-interface AutoCompleteFetchDoneAction extends Action {
+interface AutoCompleteFetchSuccessAction extends Action {
   payload: {
     items: SearchItem[]
   }
 }
 
-interface FetchErrorAction extends Action {
+interface FetchFailureAction extends Action {
   payload: {
     error: Error
   }
@@ -98,7 +98,7 @@ interface ArticleFetchAction extends Action {
   }
 }
 
-interface ArticleFetchDoneAction extends Action {
+interface ArticleFetchSuccessAction extends Action {
   payload: {
     article: ArticleType
   }
@@ -110,14 +110,14 @@ interface ArticleListFetchAction extends Action {
   }
 }
 
-interface ArticleListFetchDoneAction extends Action {
+interface ArticleListFetchSuccessAction extends Action {
   payload: {
     publication: string
     topics: Topic[]
   }
 }
 
-interface PublicationListFetchDoneAction extends Action {
+interface PublicationListFetchSuccessAction extends Action {
   payload: {
     topics: Topic[]
   }

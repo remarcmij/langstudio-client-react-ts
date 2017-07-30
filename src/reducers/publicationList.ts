@@ -1,4 +1,4 @@
-import C from '../actions/constants'
+import AT from '../actions/actionTypes'
 
 const initialState = {
   topics: null,
@@ -12,8 +12,8 @@ const fetch = (): PublicationListState => ({
   error: null
 })
 
-const fetchDone =
-  (state: PublicationListState, action: PublicationListFetchDoneAction): PublicationListState => ({
+const fetchSuccess =
+  (state: PublicationListState, action: PublicationListFetchSuccessAction): PublicationListState => ({
     ...action.payload,
     loading: false,
     error: null
@@ -25,7 +25,7 @@ const fetchCancel = (state: PublicationListState): PublicationListState => ({
   error: null
 })
 
-const fetchError = (state: PublicationListState, action: FetchErrorAction): PublicationListState => ({
+const fetchFailure = (state: PublicationListState, action: FetchFailureAction): PublicationListState => ({
   ...state,
   ...action.payload,
   loading: false
@@ -33,14 +33,14 @@ const fetchError = (state: PublicationListState, action: FetchErrorAction): Publ
 
 export default function reducer(state: PublicationListState = initialState, action: Action): PublicationListState {
   switch (action.type) {
-    case C.PUBLICATION_LIST_FETCH:
+    case AT.PUBLICATIONLIST_FETCH:
       return fetch()
-    case C.PUBLICATION_LIST_FETCH_DONE:
-      return fetchDone(state, <PublicationListFetchDoneAction>action)
-    case C.PUBLICATION_LIST_FETCH_CANCEL:
+    case AT.PUBLICATIONLIST_FETCH_SUCCESS:
+      return fetchSuccess(state, <PublicationListFetchSuccessAction>action)
+    case AT.PUBLICATIONLIST_FETCH_CANCEL:
       return fetchCancel(state)
-    case C.PUBLICATION_LIST_FETCH_ERROR:
-      return fetchError(state, <FetchErrorAction>action)
+    case AT.PUBLICATIONLIST_FETCH_FAILURE:
+      return fetchFailure(state, <FetchFailureAction>action)
     default:
       return state
   }

@@ -1,4 +1,4 @@
-import C from '../actions/constants'
+import AT from '../actions/actionTypes'
 
 const initialState = {
   article: null,
@@ -12,7 +12,7 @@ const fetch = (): ArticleState => ({
   error: null
 })
 
-const fetchDone = (state: ArticleState, action: ArticleFetchDoneAction): ArticleState => ({
+const fetchSuccess = (state: ArticleState, action: ArticleFetchSuccessAction): ArticleState => ({
   ...state,
   ...action.payload,
   loading: false,
@@ -25,7 +25,7 @@ const fetchCancel = (state: ArticleState): ArticleState => ({
   error: null
 })
 
-const fetchError = (state: ArticleState, action: FetchErrorAction): ArticleState => ({
+const fetchFailure = (state: ArticleState, action: FetchFailureAction): ArticleState => ({
   ...state,
   ...action.payload,
   loading: false
@@ -39,15 +39,15 @@ const articleCleared = (): ArticleState => ({
 
 export default function reducer(state: ArticleState = initialState, action: Action): ArticleState {
   switch (action.type) {
-    case C.ARTICLE_FETCH:
+    case AT.ARTICLE_FETCH:
       return fetch()
-    case C.ARTICLE_FETCH_DONE:
-      return fetchDone(state, <ArticleFetchDoneAction>action)
-    case C. ARTICLE_FETCH_CANCEL:
+    case AT.ARTICLE_FETCH_SUCCESS:
+      return fetchSuccess(state, <ArticleFetchSuccessAction>action)
+    case AT. ARTICLE_FETCH_CANCEL:
       return fetchCancel(state)
-    case C.ARTICLE_FETCH_ERROR:
-      return fetchError(state, <FetchErrorAction>action)
-    case C.ARTICLE_CLEAR:
+    case AT.ARTICLE_FETCH_FAILURE:
+      return fetchFailure(state, <FetchFailureAction>action)
+    case AT.ARTICLE_CLEAR:
       return articleCleared()
     default:
       return state
