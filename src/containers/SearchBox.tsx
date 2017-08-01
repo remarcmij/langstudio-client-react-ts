@@ -2,8 +2,8 @@ import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 
 import SearchBox from '../components/SearchBox'
-import * as actions from '../actions/autoCompleteList'
-import { getItems, getLoading, getError } from '../reducers/autoCompleteList'
+import * as actions from '../actions/autoComplete'
+import { getItems, getLoading, getError } from '../reducers/autoComplete'
 
 interface OwnProps {
   onItemSelected: (searchItem: SearchItem) => void

@@ -40,23 +40,17 @@ interface ArticleState {
   error: Error | null
 }
 
-interface ArticleListTopicsState {
-  [publication: string]: Topic[]
+interface TopicMap {
+  [name: string]: Topic[]
 }
 
-interface ArticleListState {
-  topics: ArticleListTopicsState
+interface TopicsState {
+  items: TopicMap
   loading: boolean
   error: Error | null
 }
 
-interface PublicationListState {
-  topics: Topic[] | null,
-  loading: boolean,
-  error: Error | null
-}
-
-interface AutoCompleteListState {
+interface AutoCompleteState {
   items: SearchItem[] | null
   loading: boolean
   error: Error | null
@@ -64,9 +58,8 @@ interface AutoCompleteListState {
 
 interface AppState {
   article: ArticleState
-  articleList: ArticleListState
-  publicationList: PublicationListState
-  autoCompleteList: AutoCompleteListState
+  topics: TopicsState,
+  autoCompletes: AutoCompleteState
 }
 
 interface Action {
@@ -104,15 +97,15 @@ interface ArticleFetchSuccessAction extends Action {
   }
 }
 
-interface ArticleListFetchAction extends Action {
+interface TopicsFetchAction extends Action {
   payload: {
-    publication: string
+    name: string
   }
 }
 
-interface ArticleListFetchSuccessAction extends Action {
+interface TopicsFetchSuccessAction extends Action {
   payload: {
-    publication: string
+    name: string
     topics: Topic[]
   }
 }

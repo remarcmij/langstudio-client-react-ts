@@ -3,23 +3,23 @@ import { ActionsObservable } from 'redux-observable'
 import * as LRU from 'lru-cache'
 
 import config from '../config/config'
-import AT from '../actions/actionTypes'
+import {AUTOCOMPLETE_FETCH, AUTOCOMPLETE_FETCH_SUCCESS, AUTOCOMPLETE_FETCH_FAILURE} from '../actions/actionTypes'
 
 const cache = LRU<AutoCompleteFetchSuccessAction>({ max: 100, maxAge: 1000 * 60 * 60 })
 
 const fetchSuccess = (items: SearchItem[]): AutoCompleteFetchSuccessAction => ({
-  type: AT.AUTOCOMPLETE_FETCH_SUCCESS,
+  type: AUTOCOMPLETE_FETCH_SUCCESS,
   payload: { items }
 })
 
 const fetchFailure = (error: Error): FetchFailureAction => ({
-  type: AT.AUTOCOMPLETE_FETCH_FAILURE,
+  type: AUTOCOMPLETE_FETCH_FAILURE,
   payload: { error }
 })
 
-export function fetchAutoCompleteListEpic(action$: ActionsObservable<AutoCompleteFetchAction>): Observable<Action> {
+export function fetchAutoCompletesEpic(action$: ActionsObservable<AutoCompleteFetchAction>): Observable<Action> {
   return action$
-    .ofType(AT.AUTOCOMPLETE_FETCH)
+    .ofType(AUTOCOMPLETE_FETCH)
     .debounceTime(250)
     .switchMap(({ payload }) => {
       const { term } = payload

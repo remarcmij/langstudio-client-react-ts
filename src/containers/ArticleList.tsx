@@ -5,8 +5,8 @@ import { History } from 'history'
 import { match } from 'react-router-dom'
 
 import ArticleList from '../components/ArticleList'
-import * as actions from '../actions/articleList'
-import { getTopics, getLoading, getError } from '../reducers/articleList'
+import * as actions from '../actions/topics'
+import { getTopics, getLoading, getError } from '../reducers/topics'
 
 interface MatchParams {
   publication: string
@@ -17,7 +17,10 @@ interface OwnProps {
   match: match<MatchParams>
 }
 
-interface ArticleListContainerProps extends OwnProps, ArticleListState {
+interface ArticleListContainerProps extends OwnProps {
+  topics: Topic[]
+  loading: boolean,
+  error: Error | null
   fetchArticleList: (publication: string) => void
   fetchArticleListCancelled: () => void
 }
@@ -33,13 +36,12 @@ class ArticleListContainer extends React.Component<ArticleListContainerProps> {
     this.onBackClick = this.onBackClick.bind(this)
     this.onSearchClick = this.onSearchClick.bind(this)
     this.onItemClick = this.onItemClick.bind(this)
-    this.handleFetchArticleTopics = this.handleFetchArticleTopics.bind(this)
+    this.handleFetchTopics = this.handleFetchTopics.bind(this)
   }
 
   componentDidMount() {
-    const { publication } = this.props.match.params
-    if (!this.props.topics[publication]) {
-      this.handleFetchArticleTopics()
+    if (!this.props.topics) {
+      this.handleFetchTopics()
     }
   }
 
@@ -62,39 +64,38 @@ class ArticleListContainer extends React.Component<ArticleListContainerProps> {
     this.props.history.push(`/content/${topic.publication}/${topic.chapter}`)
   }
 
-  handleFetchArticleTopics() {
+  handleFetchTopics() {
     const { publication } = this.props.match.params
     this.props.fetchArticleList(publication)
   }
 
   render() {
     const { topics, error } = this.props
-    const { publication } = this.props.match.params
     return (
       <ArticleList
         onBackClick={this.onBackClick}
         onSearchClick={this.onSearchClick}
         onItemClick={this.onItemClick}
-        onRetryClick={this.handleFetchArticleTopics}
-        topics={topics[publication]}
+        onRetryClick={this.handleFetchTopics}
+        topics={topics}
         error={error}
       />
     )
   }
 }
 
-const mapStateToProps = (state: AppState) => ({
-  topics: getTopics(state),
+const mapStateToProps = (state: AppState, ownProps: OwnProps) => ({
+  topics: getTopics(state, ownProps.match.params.publication),
   loading: getLoading(state),
   error: getError(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<AppState>) => ({
   fetchArticleList(publication: string) {
-    dispatch(actions.fetchArticleList(publication))
+    dispatch(actions.fetchTopics(publication))
   },
   fetchArticleListCancelled() {
-    dispatch(actions.fetchArticleListCancel())
+    dispatch(actions.fetchTopicsCancel())
   }
 })
 

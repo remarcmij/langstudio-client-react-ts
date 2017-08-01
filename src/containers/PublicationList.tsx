@@ -4,14 +4,17 @@ import { Dispatch } from 'redux'
 import { History } from 'history'
 
 import PublicationList from '../components/PublicationList'
-import * as actions from '../actions/publicationList'
-import { getTopics, getLoading, getError } from '../reducers/publicationList'
+import * as actions from '../actions/topics'
+import { getTopics, getLoading, getError } from '../reducers/topics'
 
 interface OwnProps {
   history: History
 }
 
-interface PublicationListContainerProps extends OwnProps, PublicationListState {
+interface PublicationListContainerProps extends OwnProps {
+  topics: Topic[]
+  loading: boolean
+  error: Error | null
   fetchPublicationList: () => void
   fetchPublicationListCancelled: () => void
 }
@@ -19,7 +22,6 @@ interface PublicationListContainerProps extends OwnProps, PublicationListState {
 class PublicationListContainer extends React.Component<PublicationListContainerProps> {
 
   static defaultProps = {
-    topics: null,
     loading: false,
     error: null
   }
@@ -66,17 +68,17 @@ class PublicationListContainer extends React.Component<PublicationListContainerP
 }
 
 const mapStateToProps = (state: AppState) => ({
-  topics: getTopics(state),
+  topics: getTopics(state, 'index'),
   loading: getLoading(state),
   error: getError(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<AppState>) => ({
   fetchPublicationList() {
-    dispatch(actions.fetchPublicationList())
+    dispatch(actions.fetchTopics('index'))
   },
   fetchPublicationListCancelled() {
-    dispatch(actions.fetchPublicationListCancel())
+    dispatch(actions.fetchTopicsCancel())
   }
 })
 

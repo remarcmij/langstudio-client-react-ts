@@ -1,4 +1,10 @@
-import AT from '../actions/actionTypes'
+import {
+  ARTICLE_FETCH,
+  ARTICLE_FETCH_SUCCESS,
+  ARTICLE_FETCH_FAILURE,
+  ARTICLE_FETCH_CANCEL,
+  ARTICLE_CLEAR
+} from '../actions/actionTypes'
 
 const initialState = {
   article: null,
@@ -39,15 +45,15 @@ const articleCleared = (): ArticleState => ({
 
 export default function reducer(state: ArticleState = initialState, action: Action): ArticleState {
   switch (action.type) {
-    case AT.ARTICLE_FETCH:
+    case ARTICLE_FETCH:
       return fetch()
-    case AT.ARTICLE_FETCH_SUCCESS:
+    case ARTICLE_FETCH_SUCCESS:
       return fetchSuccess(state, <ArticleFetchSuccessAction>action)
-    case AT. ARTICLE_FETCH_CANCEL:
-      return fetchCancel(state)
-    case AT.ARTICLE_FETCH_FAILURE:
+    case ARTICLE_FETCH_FAILURE:
       return fetchFailure(state, <FetchFailureAction>action)
-    case AT.ARTICLE_CLEAR:
+    case ARTICLE_FETCH_CANCEL:
+      return fetchCancel(state)
+    case ARTICLE_CLEAR:
       return articleCleared()
     default:
       return state

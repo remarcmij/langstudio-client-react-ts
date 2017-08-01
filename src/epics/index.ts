@@ -8,14 +8,12 @@ import 'rxjs/add/observable/of'
 import 'rxjs/add/observable/dom/ajax'
 
 import { combineEpics } from 'redux-observable'
-import { fetchPublicationListEpic } from './publicationList'
-import { fetchArticleListEpic } from './articleList'
+import { fetchTopicsEpic } from './topics'
 import { fetchArticleEpic } from './article'
-import { fetchAutoCompleteListEpic } from './autoCompleteList'
+import { fetchAutoCompletesEpic } from './autoComplete'
 
 export const rootEpic = combineEpics(
-  fetchPublicationListEpic,
-  fetchArticleListEpic,
+  fetchTopicsEpic,
   fetchArticleEpic,
-  fetchAutoCompleteListEpic
+  fetchAutoCompletesEpic
 )

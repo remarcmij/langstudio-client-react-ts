@@ -1,6 +1,6 @@
-import AT from './actionTypes'
+import { AUTOCOMPLETE_FETCH } from './actionTypes'
 
 export const fetchAutoCompleteList = (term: string): AutoCompleteFetchAction => ({
-  type: AT.AUTOCOMPLETE_FETCH,
+  type: AUTOCOMPLETE_FETCH,
   payload: { term }
 })

@@ -3,23 +3,28 @@ import { ActionsObservable } from 'redux-observable'
 import * as LRU from 'lru-cache'
 
 import config from '../config/config'
-import AT from '../actions/actionTypes'
+import {
+  ARTICLE_FETCH,
+  ARTICLE_FETCH_SUCCESS,
+  ARTICLE_FETCH_FAILURE,
+  ARTICLE_FETCH_CANCEL
+} from '../actions/actionTypes'
 
 const cache = LRU<ArticleFetchSuccessAction>({ max: 25, maxAge: 1000 * 60 * 60 })
 
 const fetchSuccess = (article: ArticleType): ArticleFetchSuccessAction => ({
-  type: AT.ARTICLE_FETCH_SUCCESS,
+  type: ARTICLE_FETCH_SUCCESS,
   payload: { article }
 })
 
 const fetchFailure = (error: Error): FetchFailureAction => ({
-  type: AT.ARTICLE_FETCH_FAILURE,
+  type: ARTICLE_FETCH_FAILURE,
   payload: { error }
 })
 
 export function fetchArticleEpic(action$: ActionsObservable<ArticleFetchAction>): Observable<Action> {
   return action$
-    .ofType(AT.ARTICLE_FETCH)
+    .ofType(ARTICLE_FETCH)
     .switchMap(({ payload }) => {
       const { publication, chapter } = payload
       const fileName = `${publication}.${chapter}.md`
@@ -34,6 +39,6 @@ export function fetchArticleEpic(action$: ActionsObservable<ArticleFetchAction>)
       }).map(res => fetchSuccess(res.response))
         .do(action => cache.set(fileName, action))
         .catch(error => Observable.of(fetchFailure(error)))
-        .takeUntil(action$.ofType(AT. ARTICLE_FETCH_CANCEL))
+        .takeUntil(action$.ofType(ARTICLE_FETCH_CANCEL))
     })
 }
