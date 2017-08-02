@@ -6,7 +6,7 @@ import NetworkError from './NetworkError'
 import './Article.css'
 
 interface ArticleProps {
-  article: ArticleType | null
+  article: ArticleTopic | null
   error: Error | null
   onBackClick: () => void
   onSearchClick: () => void
@@ -37,7 +37,7 @@ function Article(props: ArticleProps) {
     }
   }
 
-  const getDir = ({_topic}: ArticleType) => {
+  const getDir = ({_topic}: ArticleTopic) => {
     const { baseLang, targetLang } = _topic
     return baseLang.startsWith('ar') || targetLang.startsWith('ar') ? 'rtl' : 'ltr'
   }

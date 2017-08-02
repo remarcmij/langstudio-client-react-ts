@@ -5,7 +5,7 @@ import { History } from 'history'
 import { match } from 'react-router-dom'
 
 import Article from '../components/Article'
-import { fetchArticle, fetchArticleCancel, clearArticle } from '../actions/article'
+import { fetchArticle, fetchArticleCancel } from '../actions/article'
 import { getArticle, getLoading, getError } from '../reducers/article'
 import speechService from '../services/speechService'
 
@@ -19,7 +19,10 @@ interface OwnProps {
   match: match<MatchParams>
 }
 
-interface ArticleContainerProps extends OwnProps, ArticleState {
+interface ArticleContainerProps extends OwnProps {
+  article: ArticleTopic,
+  loading: boolean,
+  error: Error | null
   fetchArticle: (publication: string, chapter: string) => void
   fetchArticleCancelled: () => void
   clearArticle: () => void
@@ -40,14 +43,14 @@ class ArticleContainer extends React.Component<ArticleContainerProps> {
   }
 
   componentDidMount() {
-    this.handleFetchArticle()
+    if (!this.props.article) {
+      this.handleFetchArticle()
+    }
   }
 
   componentWillUnmount() {
     if (this.props.loading) {
       this.props.fetchArticleCancelled()
-    } else {
-      this.props.clearArticle()
     }
   }
 
@@ -85,11 +88,15 @@ class ArticleContainer extends React.Component<ArticleContainerProps> {
   }
 }
 
-const mapStateToProps = (state: AppState) => ({
-  article: getArticle(state),
-  loading: getLoading(state),
-  error: getError(state)
-})
+const mapStateToProps = (state: AppState, ownProps: OwnProps) => {
+  const { publication, chapter } = ownProps.match.params
+  const fileName = `${publication}.${chapter}.md`
+  return {
+    article: getArticle(state, fileName),
+    loading: getLoading(state),
+    error: getError(state)
+  }
+}
 
 const mapDispatchToProps = (dispatch: Dispatch<AppState>) => ({
   fetchArticle(publication: string, chapter: string) {
@@ -97,9 +104,6 @@ const mapDispatchToProps = (dispatch: Dispatch<AppState>) => ({
   },
   fetchArticleCancelled() {
     dispatch(fetchArticleCancel())
-  },
-  clearArticle() {
-    dispatch(clearArticle())
   }
 })
 

@@ -17,7 +17,7 @@ interface Topic {
   lastModified: string
 }
 
-interface ArticleType {
+interface ArticleTopic {
   _id: string
   fileName: string
   groupName: string
@@ -34,8 +34,12 @@ interface SearchItem {
   lang: string
 }
 
-interface ArticleState {
-  article: ArticleType | null
+interface ArticleMap {
+  [name: string]: ArticleTopic
+}
+
+interface ArticlesState {
+  items: ArticleMap
   loading: boolean
   error: Error | null
 }
@@ -57,7 +61,7 @@ interface AutoCompleteState {
 }
 
 interface AppState {
-  article: ArticleState
+  article: ArticlesState
   topics: TopicsState,
   autoCompletes: AutoCompleteState
 }
@@ -93,7 +97,7 @@ interface ArticleFetchAction extends Action {
 
 interface ArticleFetchSuccessAction extends Action {
   payload: {
-    article: ArticleType
+    article: ArticleTopic
   }
 }
 
